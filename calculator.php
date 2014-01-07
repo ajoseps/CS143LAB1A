@@ -29,6 +29,7 @@ foreach($infixArray as $token)
 			{
 				$poppedStackElement = array_pop($stackArray);
 				array_push($postfixArray, $poppedStackElement);
+				$lastStackElement = $stackArray[count($stackArray) -1];
 			}
 			array_push($stackArray, $token);
 		}
