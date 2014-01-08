@@ -12,47 +12,53 @@
 <?php
 $input = $_POST["calcInput"];
 $infixArray = preg_split("/([\+\-\/\*])/", $input, -1, PREG_SPLIT_DELIM_CAPTURE);
-$postfixArray = array();
-$stackArray = array();
-
-#infix to postfix conversion
-foreach($infixArray as $token)
-{
-	if(is_numeric($token))
-	{
-		array_push($postfixArray, $token);
-	}
-	else
-	{
-		if(count($stackArray) == 0)
-		{
-			array_push($stackArray, $token);
-		}
-		else
-		{
-			# If stack is not empty, pop all greater/equal operators and add to postfix
-			$lastStackElement = $stackArray[count($stackArray) -1];
-			while(precedence($lastStackElement, $token))
-			{
-				$poppedStackElement = array_pop($stackArray);
-				array_push($postfixArray, $poppedStackElement);
-				$lastStackElement = $stackArray[count($stackArray) -1];
-			}
-			array_push($stackArray, $token);
-		}
-	}
-}
-while(count($stackArray) != 0)
-{
-	$remainingStackOperators = array_pop($stackArray);
-	array_push($postfixArray, $remainingStackOperators);
-}
+$postfixArray = infixToPostfix($infixArray);
 
 foreach($postfixArray as $value)
 {
 	echo "$value <br>";
 }
 
+#infix to postfix conversion
+function infixToPostfix($infix)
+{
+	$postfix = array();
+	$stackArray = array();
+
+
+	foreach($infix as $token)
+	{
+		if(is_numeric($token))
+		{
+			array_push($postfix, $token);
+		}
+		else
+		{
+			if(count($stackArray) == 0)
+			{
+				array_push($stackArray, $token);
+			}
+			else
+			{
+				# If stack is not empty, pop all greater/equal operators and add to postfix
+				$lastStackElement = $stackArray[count($stackArray) -1];
+				while(precedence($lastStackElement, $token))
+				{
+					$poppedStackElement = array_pop($stackArray);
+					array_push($postfix, $poppedStackElement);
+					$lastStackElement = $stackArray[count($stackArray) -1];
+				}
+				array_push($stackArray, $token);
+			}
+		}
+	}
+	while(count($stackArray) != 0)
+	{
+		$remainingStackOperators = array_pop($stackArray);
+		array_push($postfix, $remainingStackOperators);
+	}
+	return $postfix;
+}
 # Assigns a value to the operator
 function precedenceValue($operator)
 {
