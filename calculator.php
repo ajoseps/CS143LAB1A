@@ -13,10 +13,54 @@
 $input = $_POST["calcInput"];
 $infixArray = preg_split("/([\+\-\/\*])/", $input, -1, PREG_SPLIT_DELIM_CAPTURE);
 $postfixArray = infixToPostfix($infixArray);
+$resultEvaluation = postfixEval($postfixArray);
+echo "Answer: $resultEvaluation";
 
+/*
 foreach($postfixArray as $value)
 {
 	echo "$value <br>";
+}
+*/
+
+# evaluates the postfix expression
+function postfixEval($postfix)
+{
+	$stackArray = array();
+	foreach($postfix as $token)
+	{
+		if(is_numeric($token))
+		{
+			array_push($stackArray, $token);
+		}
+		else
+		{
+			$poppedStackElement1 = array_pop($stackArray);
+			$poppedStackElement2 = array_pop($stackArray);
+			# might need to switch the $poppedStackElements around
+			$result = operationEval($poppedStackElement2, $poppedStackElement1, $token);
+			array_push($stackArray, $result);
+		}
+	}
+	return $stackArray[0];
+}
+
+# evaluates an operation on two operands
+function operationEval($operand1, $operand2, $operator)
+{
+	switch($operator)
+	{
+		case "+":
+			return $operand1 + $operand2;
+		case "-":
+		    return $operand1 - $operand2;
+        case "*":
+        	return $operand1 * $operand2;
+		case "/":
+			return $operand1 / $operand2;
+		default:
+			return -1;
+	}
 }
 
 #infix to postfix conversion
