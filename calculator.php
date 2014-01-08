@@ -1,4 +1,12 @@
 <body>
+
+<h1>Calculator</h1>
+
+<form action="" method="post">
+    <input type="test" name="calcInput">
+    <input type="submit" value="Calculate">
+</form>
+
 <h1>Result</h1>
 
 <?php
@@ -24,7 +32,6 @@ foreach($infixArray as $token)
 		{
 			# If stack is not empty, pop all greater/equal operators and add to postfix
 			$lastStackElement = $stackArray[count($stackArray) -1];
-
 			while(precedence($lastStackElement, $token))
 			{
 				$poppedStackElement = array_pop($stackArray);
@@ -53,8 +60,8 @@ function precedenceValue($operator)
 	{
 		case "+":
 		case "-":
-			return 0;
-		case "*":
+		    return 0;
+        case "*":
 		case "/":
 			return 1;
 		default:
@@ -65,7 +72,9 @@ function precedenceValue($operator)
 # Returns true if $operator1 has greater than or equal precedence to $operator2
 function precedence($operator1, $operator2)
 {
-	if($operator1 >= $operator2)
+    $precedenceop1 = precedenceValue($operator1);
+    $precedenceop2 = precedenceValue($operator2);
+	if($precedenceop1 >= $precedenceop2)
 		return true;
 	else
 		return false;
