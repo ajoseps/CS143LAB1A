@@ -11,7 +11,9 @@
 
 <?php
 $input = $_POST["calcInput"];
-eval("\$result=".$input.";");
+$infixArray = preg_split("/([\+\-\/\*])/", $input, -1, PREG_SPLIT_DELIM_CAPTURE);
+$expressionStr = implode($infixArray);
+eval("\$result=".$expressionStr.";");
 echo "$input"."="."$result" ;
 /*
 $infixArray = preg_split("/([\+\-\/\*])/", $input, -1, PREG_SPLIT_DELIM_CAPTURE);
