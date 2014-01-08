@@ -11,17 +11,28 @@
 
 <?php
 $input = $_POST["calcInput"];
-$infixArray = preg_split("/([\+\-\/\*])/", $input, -1, PREG_SPLIT_DELIM_CAPTURE);
-$postfixArray = infixToPostfix($infixArray);
-$resultEvaluation = postfixEval($postfixArray);
-echo "Answer: $resultEvaluation";
-
+eval("\$result=".$input.";");
+echo "$input"."="."$result" ;
 /*
+$infixArray = preg_split("/([\+\-\/\*])/", $input, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+# return input if there is less than 3 tokens (which is required for an operation)
+if(count(infixArray) < 3)
+{
+	echo "Answer: $input";
+}
+else
+{
+	$postfixArray = infixToPostfix($infixArray);
+	$resultEvaluation = postfixEval($postfixArray);
+	echo "Answer: $resultEvaluation";
+}
+
 foreach($postfixArray as $value)
 {
 	echo "$value <br>";
 }
-*/
+
 
 # evaluates the postfix expression
 function postfixEval($postfix)
@@ -129,7 +140,7 @@ function precedence($operator1, $operator2)
 	else
 		return false;
 }
-
+*/
 ?>
 
 </body>
