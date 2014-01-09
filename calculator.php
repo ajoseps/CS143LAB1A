@@ -2,7 +2,7 @@
 
 <h1>Calculator</h1>
 
-<form action="" method="post">
+<form action="" method="get">
     <input type="test" name="calcInput">
     <input type="submit" value="Calculate">
 </form>
@@ -10,25 +10,37 @@
 <h1>Result</h1>
 
 <?php
-$input = $_POST["calcInput"];
-$infixArray = preg_split("/([\+\-\/\*])/", $input, -1, PREG_SPLIT_DELIM_CAPTURE);
-$expressionStr = implode($infixArray);
-$expressionStr = trim($expressionStr);
+$input = $_GET["calcInput"];
+$expressionStr = trim($input);
 
-if (preg_match('/[A-Za-z]/', $expressionStr))
+if(strpos($expressionStr, "/0") == FALSE)
 {
-	echo "Invalid Expression: $expressionStr";
+	ob_start();
+	eval("\$result=".$expressionStr.";");
+	if ('' !== $error = ob_get_clean()) 
+	{
+		echo "Invalid Expression: $expressionStr";
+		return;
+	}
+	if(strpos($expressionStr, "="))
+	{
+		echo "Invalid Expression: $expressionStr";
+		return;
+	}
 }
+# For cases that contain a /0 but are also Invalid Expressions
 else
 {
-	if(strpos($expressionStr, "/0") == FALSE)
+	ob_start();
+	eval("\$result=".$expressionStr.";");
+	if ('' !== $error = ob_get_clean())
 	{
-		eval("\$result=".$expressionStr.";");
+		echo "Invalid Expression: $expressionStr";
+		return;
 	}
-
-	echo "$input"."="."$result" ;
 }
 
+echo "$input"."="."$result";
 ?>
 
 </body>
