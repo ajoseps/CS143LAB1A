@@ -2,7 +2,7 @@ CS143LAB1A
 ==========
 
 Arun Joseph 804 004 769 ajoseps@gmail.com
-Yuxi Lin
+Yuxi Lin 604 036 196 yuxilin@gmail.com
 
 We did the project through pair programming mostly.
 
